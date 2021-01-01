@@ -1,0 +1,18 @@
+% Specify URL of the page to read data from
+url = 'https://api.openweathermap.org/data/2.5/onecall?lat=52.250589&lon=-7.103709&exclude=minutely&units=metric&appid=a5a84cde2de0c64942c1e7db26cc714f';
+% Specify the target string to search in webpage
+targetString = 'humidity';
+
+% Add channel ID to write data to:
+writeChannelID = 1274506;
+% Enter the Write API Key:
+writeAPIKey = '4GI77A210YWGMM6Y';
+
+%% Scrape the webpage %%
+% Read data from the URL and scrape the first numeric value after the 
+% targetString
+data = urlfilter(url, targetString);
+
+% Write Data to ThingSpeak
+thingSpeakWrite(1274506,data,'Field',2,'WriteKey','4GI77A210YWGMM6Y')
+disp(data)

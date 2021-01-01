@@ -1,0 +1,121 @@
+{{> menu id="forecast"}}
+<div class="ui center aligned segment">
+  <h1>
+    Forecast - Lat: <span id="lat"></span> Lon: <span id="lon"></span> - Co. Waterford
+  </h1>
+  </div>
+<div class="ui segment">
+  <h1>
+    Currently:
+  </h1>
+  <div class="ui five statistics">
+  <div class="statistic">
+    <div class="value">
+     <iframe width="200" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1274506/widgets/254677"></iframe>
+    </div>
+    <div class="label">
+      Temp°C
+    </div>
+  </div>
+    <div class="statistic">
+    <div class="value">      
+      <iframe width="200" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1274506/widgets/254678"></iframe>
+    </div>
+    <div class="label">
+      Pressure/PA 
+    </div>
+  </div>
+    <div class="statistic">
+    <div class="value">
+      <iframe width="200" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1274506/widgets/254681"></iframe>
+    </div>
+    <div class="label">
+      Humidity: 
+    </div>
+  </div>
+    <div class="statistic">
+    <div class="value">
+      <iframe width="200" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1274506/widgets/254682"></iframe>
+    </div>
+    <div class="label">
+      Wind Speed m/s 
+    </div>
+  </div>
+    <div class="statistic">
+    <div class="value">
+      <iframe width="200" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/1274506/widgets/254684"></iframe>
+    </div>
+    <div class="label">
+      Visibility
+    </div>
+  </div>
+  </div>
+</div>
+<div class="ui center aligned segment">
+<h1>
+    Tomorrow:
+  </h1>
+<div class="ui four statistics">
+  <div class="statistic">
+    <div class="value">
+      <span id="T-temp"></span>
+    </div>
+    <div class="label">
+      Temp°C
+    </div>
+  </div>
+    <div class="statistic">
+    <div class="value">
+      <span id="T-press"></span>
+    </div>
+    <div class="label">
+      Pressure Pa
+    </div>
+  </div>
+    <div class="statistic">
+    <div class="value">
+      <span id="T-humid"></span>
+    </div>
+    <div class="label">
+      Humidity %
+    </div>
+  </div>
+    <div class="statistic">
+    <div class="value">
+      <span id="T-wspeed"></span>
+    </div>
+    <div class="label">
+      Wind Speed m/s
+    </div>
+  </div>
+  </div>
+</div>
+<script>
+  console.log("fetching");
+  //Function that uses the fetch() method to reterieve json data from the openweathermap api.
+  //document.getElementById is then used to extract the data of intrest.
+  async function getWeatherData() {
+    const response = await fetch('https://api.openweathermap.org/data/2.5/onecall?lat=52.250589&lon=-7.103709&exclude=minutely&units=metric&appid=a5a84cde2de0c64942c1e7db26cc714f')
+    const data = await response.json();
+    const tomorrow = data.daily[0];
+    // temperature data stored in its own array
+    const tomorrowTemps = tomorrow.temp;
+    
+    document.getElementById("lat").textContent = data.lat;
+    document.getElementById("lon").textContent = data.lon;
+        
+    //Tomorrow stats
+    document.getElementById("T-temp").textContent = tomorrowTemps.day;
+    document.getElementById("T-press").textContent = tomorrow.pressure;
+    document.getElementById("T-humid").textContent = tomorrow.humidity;
+    document.getElementById("T-wspeed").textContent = tomorrow.wind_speed;
+    
+    console.log(data);
+    console.log(now);
+    console.log(tomorrow);
+    console.log(tomorrowTemps);
+  
+  }
+  getWeatherData();
+</script>
+
